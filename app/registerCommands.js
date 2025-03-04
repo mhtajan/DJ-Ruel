@@ -74,6 +74,10 @@ const commands = [
         },
     ]
     },
+    {
+        "name": "stop",
+        "description": "Stop Radio"
+    }
 ];
 
 
