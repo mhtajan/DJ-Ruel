@@ -1,0 +1,87 @@
+{
+  "stations": [
+    {
+      "name": "Radyo Natin",
+      "frequency": "",
+      "location": "Manila",
+      "url": "https://visayas.radyonatinfm.com:8000/stream"
+    },
+    {
+      "name": "MOR Entertainment",
+      "frequency": "",
+      "location": "Manila",
+      "url": "https://stream.zeno.fm/0ha8ftewqp8uv?type=.aac"
+    },
+    {
+     
+      "name": "Magic 89.9",
+      "frequency": "89.9",
+      "location": "Manila",
+      "url": "https://stream.zeno.fm/sh37pvfd938uv"
+    },
+    {
+      "name": "Love Radio",
+      "frequency": "90.7",
+      "location": "Manila",
+      "url": "https://22283.live.streamtheworld.com/LOVERADIO_MNL_SC"
+    },
+    {
+      "name": "Win Radio",
+      "frequency": "91.5",
+      "location": "Manila",
+      "url": "https://stream.zeno.fm/2ss1hgnu6hhvv"
+    },
+    {
+      "name": "Monster Radio RX ",
+      "frequency": "93.1",
+      "location": "Manila",
+      "url": "https://sg-icecast.eradioportal.com:8443/monsterrrx"
+    },
+    {
+      "name": "DZRH NEWS FM 94.3",
+      "frequency": "94.3",
+      "location": "Manila",
+      "url": "https://a9.asurahosting.com:8430/radio.mp3"
+    },
+    {
+      "name": "Eagle FM",
+      "frequency": "95.5",
+      "location": "Manila",
+      "url": "http://stream.radiojar.com/yus0r2bghd3vv"
+    },
+
+    {
+      "name": "Easy Rock",
+      "frequency": "96.3",
+      "location": "Manila",
+      "url": "https://22283.live.streamtheworld.com/EASYROCK_MNL_SC"
+    },
+
+    {
+      "name": "Barangay LS",
+      "frequency": "97.1",
+      "location": "Manila",
+      "url": "https://magic.radioca.st/stream"
+    },
+    {
+      "name": "101.1 Yes! FM",
+      "frequency": "101.1",
+      "location": "Manila",
+      "url": "https://22283.live.streamtheworld.com/YESTHEBEST_MNL_SC"
+    },
+
+    {
+      "name": "Energy FM",
+      "frequency": "106.7",
+      "location": "Manila",
+      "url": "http://ph-icecast.eradioportal.com:8000/energyfm_manila"
+    },
+
+    {
+      "name": "Wish 107.5",
+      "frequency": "107.5",
+      "location": "Manila",
+      "url": "https://stream.zeno.fm/yxky8c78rliuv"
+    }
+  ]
+}
