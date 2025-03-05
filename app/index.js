@@ -4,6 +4,7 @@ const {
   ActivityType,
   ActivityFlags,
   MessageFlags,
+  EmbedBuilder,
 } = require("discord.js");
 const {
   createAudioPlayer,
@@ -30,8 +31,9 @@ async function play(interaction) {
 
     const query = radio.stations[radioIx].url;
     const resourceStation = createAudioResource(query, {
-      metadata: { title: radio.stations[radioIx].name,
-        url: radio.stations[radioIx].url
+      metadata: {
+        title: radio.stations[radioIx].name,
+        url: radio.stations[radioIx].url,
       },
     });
 
@@ -73,25 +75,27 @@ async function stop(interaction) {
     }
   } catch (error) {}
 }
-async function start(interaction){
+async function start(interaction) {
   try {
     const connection = joinVoiceChannel({
       channelId: interaction.member.voice.channelId,
       guildId: interaction.guild.id,
       adapterCreator: interaction.guild.voiceAdapterCreator,
     });
-    if(connection){
+    if (connection) {
       interaction.reply({
         content: "Connected to voice channel.",
         flags: MessageFlags.Ephemeral,
       });
-    }else{
+    } else {
       connection.subscribe(player);
-      //start radio // send embed design
+      const embed = new EmbedBuilder()
+        .setTitle(`Radio Station: ${Params.title}`)
+        .setDescription(`Frequency: ${Params.freuqency}`)
+        .setThumbnail()
+        .setTimestamp();
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 }
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
@@ -113,10 +117,12 @@ player.on(AudioPlayerStatus.Playing, () => {
 });
 player.on(AudioPlayerStatus.Idle, () => {
   console.log("Player is idle.");
- const resource = player.state.resource;
- const audioUrl = resource.metadata.url;
- const resourceStation = createAudioResource(audioUrl, {
-   metadata: { title: resource.metadata.title, url: audioUrl },
- });
-  player.play(resourceStation);
+  const resource = player.state.resource;
+  if (resource) {
+    const audioUrl = resource.metadata.url;
+    const resourceStation = createAudioResource(audioUrl, {
+      metadata: { title: resource.metadata.title, url: audioUrl },
+    });
+    player.play(resourceStation);
+  }
 });
