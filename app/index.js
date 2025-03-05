@@ -10,6 +10,7 @@ const {
   createAudioResource,
   joinVoiceChannel,
   getVoiceConnection,
+  AudioPlayerStatus,
 } = require("@discordjs/voice");
 const radio = require("./misc/stations.json");
 const client = require("./bot.js");
@@ -102,7 +103,7 @@ player.on(AudioPlayerStatus.Playing, () => {
     client.user.setPresence({
       status: "online",
       activities: [
-        { name: resource.metadata.title, type: ActivityType.Watching },
+        { name: resource.metadata.title, type: ActivityType.Listening },
       ],
     });
   }

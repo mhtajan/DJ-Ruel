@@ -77,6 +77,10 @@ const commands = [
     {
         "name": "stop",
         "description": "Stop Radio"
+    },
+    {
+        "name": "start",
+        "description": "Start Radio"
     }
 ];
 
