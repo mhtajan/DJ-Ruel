@@ -134,17 +134,3 @@ player.on(AudioPlayerStatus.Playing, () => {
     });
   }
 });
-player.on(AudioPlayerStatus.Idle, () => {
-  console.log("Player is idle.");
-  const resource = player.state.resource;
-  if (resource) {
-    const audioUrl = resource.metadata.url;
-    const resourceStation = createAudioResource(audioUrl, {
-      metadata: { title: resource.metadata.title, url: audioUrl },
-    });
-    player.play(resourceStation);
-  }
-});
-player.on("error", (error) => {
-  console.error("Error in player:", error);
-});
