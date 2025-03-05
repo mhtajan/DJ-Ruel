@@ -101,6 +101,7 @@ client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
   if (interaction.commandName === "radio") await play(interaction);
   if (interaction.commandName === "stop") await stop(interaction);
+  if (interaction.commandName === "start") await start(interaction);
 });
 
 player.on(AudioPlayerStatus.Playing, () => {
@@ -125,4 +126,7 @@ player.on(AudioPlayerStatus.Idle, () => {
     });
     player.play(resourceStation);
   }
+});
+player.on("error", (error) => {
+  console.error("Error in player:", error);
 });
