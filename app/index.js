@@ -13,6 +13,7 @@ const {
   getVoiceConnection,
   AudioPlayerStatus,
 } = require("@discordjs/voice");
+const prism = require("prism-media"); // Added prism-media
 const radio = require("./misc/stations.json");
 const client = require("./bot.js");
 
@@ -30,7 +31,21 @@ async function play(interaction) {
     }
 
     const query = radio.stations[radioIx].url;
-    const resourceStation = createAudioResource(query, {
+
+    // Use prism-media to process the audio stream
+    const ffmpegStream = new prism.FFmpeg({
+      args: [
+        "-re",
+        "-i", query,
+        "-map", "0:a:0",
+        "-c:a", "pcm_f32le",
+        "-ar", "48000",
+        "-ac", "2",
+        "-f", "f32le",
+      ],
+    });
+
+    const resourceStation = createAudioResource(ffmpegStream, {
       metadata: {
         title: radio.stations[radioIx].name,
         url: radio.stations[radioIx].url,
@@ -58,6 +73,7 @@ async function play(interaction) {
     });
   }
 }
+
 async function stop(interaction) {
   try {
     const connection = getVoiceConnection(interaction.guild.id);
@@ -75,6 +91,7 @@ async function stop(interaction) {
     }
   } catch (error) {}
 }
+
 async function start(interaction) {
   try {
     const connection = joinVoiceChannel({
@@ -97,6 +114,7 @@ async function start(interaction) {
     }
   } catch (error) {}
 }
+
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
   if (interaction.commandName === "radio") await play(interaction);
