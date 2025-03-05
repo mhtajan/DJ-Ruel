@@ -30,7 +30,9 @@ async function play(interaction) {
 
     const query = radio.stations[radioIx].url;
     const resourceStation = createAudioResource(query, {
-      metadata: { title: radio.stations[radioIx].name },
+      metadata: { title: radio.stations[radioIx].name,
+        url: radio.stations[radioIx].url
+      },
     });
 
     const connection = joinVoiceChannel({
@@ -98,6 +100,7 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 player.on(AudioPlayerStatus.Playing, () => {
+  console.log("Player is playing.");
   const resource = player.state.resource;
   if (resource) {
     client.user.setPresence({
@@ -107,4 +110,13 @@ player.on(AudioPlayerStatus.Playing, () => {
       ],
     });
   }
+});
+player.on(AudioPlayerStatus.Idle, () => {
+  console.log("Player is idle.");
+ const resource = player.state.resource;
+ const audioUrl = resource.metadata.url;
+ const resourceStation = createAudioResource(audioUrl, {
+   metadata: { title: resource.metadata.title, url: audioUrl },
+ });
+  player.play(resourceStation);
 });
