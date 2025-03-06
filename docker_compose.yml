@@ -1,8 +1,0 @@
-services:
-  dj-ruel:
-    build:
-      context: ./
-    environment:
-      TOKEN: OTQ0NjY2MDEyOTY2NTg4NDg2.Ga4lwI.WfYyLrAnviN33Lmh9jFhFenODXNkTjf-Gq-WLM
-      CLIENT: 944666012966588486
-    restart: always
