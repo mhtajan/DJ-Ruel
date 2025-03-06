@@ -12,12 +12,12 @@ const {
   joinVoiceChannel,
   getVoiceConnection,
   AudioPlayerStatus,
+  StreamType
 } = require("@discordjs/voice");
-const prism = require("prism-media"); // Added prism-media
 const radio = require("./misc/stations.json");
 const client = require("./bot.js");
-
 const player = createAudioPlayer();
+const { request } = require('undici');
 
 client.on("ready", () => {
   console.log(`${client.user.tag} is ready!`);
@@ -31,21 +31,10 @@ async function play(interaction) {
     }
 
     const query = radio.stations[radioIx].url;
-
-    // Use prism-media to process the audio stream
-    const ffmpegStream = new prism.FFmpeg({
-      args: [
-        "-re",
-        "-i", query,
-        "-map", "0:a:0",
-        "-c:a", "pcm_f32le",
-        "-ar", "48000",
-        "-ac", "2",
-        "-f", "f32le",
-      ],
-    });
-
-    const resourceStation = createAudioResource(ffmpegStream, {
+    const response = await request(query);
+    const resourceStation = createAudioResource(response.body, {
+      inputType: StreamType.Arbitrary, // Since it's a raw stream
+      inlineVolume: true,
       metadata: {
         title: radio.stations[radioIx].name,
         url: radio.stations[radioIx].url,
@@ -73,7 +62,6 @@ async function play(interaction) {
     });
   }
 }
-
 async function stop(interaction) {
   try {
     const connection = getVoiceConnection(interaction.guild.id);
@@ -91,7 +79,6 @@ async function stop(interaction) {
     }
   } catch (error) {}
 }
-
 async function start(interaction) {
   try {
     const connection = joinVoiceChannel({
@@ -114,7 +101,6 @@ async function start(interaction) {
     }
   } catch (error) {}
 }
-
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
   if (interaction.commandName === "radio") await play(interaction);
@@ -133,4 +119,20 @@ player.on(AudioPlayerStatus.Playing, () => {
       ],
     });
   }
+});
+player.on(AudioPlayerStatus.Idle, () => {
+  console.log("Player is idle.");
+  const resource = player.state.resource;
+  if (resource) {
+    const audioUrl = resource.metadata.url;
+    const resourceStation = createAudioResource(audioUrl, {
+      inputType: StreamType.Arbitrary, // Since it's a raw stream
+      inlineVolume: true,
+      metadata: { title: resource.metadata.title, url: audioUrl },
+    });
+    player.play(resourceStation);
+  }
+});
+player.on("error", (error) => {
+  console.error("Error in player:", error);
 });
