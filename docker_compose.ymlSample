@@ -1,0 +1,8 @@
+services:
+  dj-ruel:
+    build:
+      context: ./
+    environment:
+      TOKEN: 
+      CLIENT: 
+    restart: always
