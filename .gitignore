@@ -1,6 +1,7 @@
 # Logs
 logs
 *.log
+docker_compose.yml
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -128,5 +129,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-docker_compose.yml
-*.yml
